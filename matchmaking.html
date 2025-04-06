@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Matchmaking | Conference Connect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-bg: rgba(0, 0, 0, 0.85);
+      --secondary-bg: rgba(255, 255, 255, 0.1);
+      --text-color: #fff;
+    }
+
+    body.dark-mode {
+      --primary-bg: rgba(255, 255, 255, 0.95);
+      --secondary-bg: rgba(240, 240, 240, 0.9);
+      --text-color: #111;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('https://images.unsplash.com/photo-1551836022-d5d88e9218df') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    header {
+      background-color: var(--primary-bg);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .top-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background: #357bd8;
+    }
+
+    .side-menu {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: var(--primary-bg);
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+      z-index: 15;
+    }
+
+    .side-menu a {
+      padding: 12px 32px;
+      text-decoration: none;
+      color: var(--text-color);
+      display: block;
+      transition: 0.3s;
+    }
+
+    .side-menu a:hover {
+      background-color: #4a90e2;
+      color: white;
+    }
+
+    .menu-btn {
+      font-size: 24px;
+      background: none;
+      color: var(--text-color);
+      border: none;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .container {
+      padding: 40px;
+      background-color: var(--secondary-bg);
+      margin: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .container h2 {
+      color: #4a90e2;
+      margin-bottom: 20px;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 30px;
+    }
+
+    .profiles {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .profile {
+      background-color: white;
+      color: #111;
+      padding: 20px;
+      width: 180px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .profile img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    /* Scrolling Strip */
+    .scroll-strip {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 10px 0;
+      position: fixed;
+      bottom: 0;
+      z-index: 5;
+    }
+
+    .scroll-content {
+      display: inline-block;
+      animation: scroll-left 60s linear infinite;
+    }
+
+    .scroll-item {
+      display: inline-block;
+      margin: 0 15px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .scroll-item img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* Glitter Effect */
+    .glitter {
+      position: fixed;
+      pointer-events: none;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      animation: glitter-fall 1s ease-out;
+    }
+
+    @keyframes glitter-fall {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(40px) scale(0);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 10px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div style="display: flex; align-items: center;">
+      <button class="menu-btn" onclick="openMenu()">☰</button>
+      <div class="logo">Conference Connect</div>
+    </div>
+    <div class="top-buttons">
+      <button class="btn" onclick="toggleDarkMode()">🌙</button>
+      <button class="btn" onclick="location.href='login.html'">Login</button>
+    </div>
+  </header>
+
+  <div id="sideMenu" class="side-menu">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+    <a href="index.html">🏠 Home</a>
+    <a href="leaderboard.html">🏆 Leaderboard</a>
+    <a href="matchmaking.html">❤️ Matchmaking</a>
+    <a href="nearby.html">📍 Nearby Attendees</a>
+    <a href="review.html">✍️ Write a Review</a>
+    <a href="request.html">📩 Request Conference</a>
+    <a href="login.html">Login</a>
+  </div>
+
+  <div class="container">
+    <h2>Find Your Business Match</h2>
+    <select onchange="startRotation(this.value)">
+      <option value="">-- Select Interest --</option>
+      <option value="Marketing">Marketing</option>
+      <option value="Finance">Finance</option>
+      <option value="Startups">Startups</option>
+      <option value="AI">Artificial Intelligence</option>
+      <option value="Cloud">Cloud Computing</option>
+      <option value="Data">Data Analysis</option>
+      <option value="Blockchain">Blockchain</option>
+    </select>
+
+    <div id="matchResults" class="profiles"></div>
+  </div>
+
+  <div class="scroll-strip">
+    <div class="scroll-content" id="scrollingFaces"></div>
+  </div>
+
+  <script>
+    function openMenu() {
+      document.getElementById("sideMenu").style.width = "250px";
+    }
+
+    function closeMenu() {
+      document.getElementById("sideMenu").style.width = "0";
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    document.addEventListener("mousemove", e => {
+      const glitter = document.createElement("div");
+      glitter.className = "glitter";
+      glitter.style.left = `${e.pageX}px`;
+      glitter.style.top = `${e.pageY}px`;
+      document.body.appendChild(glitter);
+      setTimeout(() => glitter.remove(), 1000);
+    });
+
+    const users = Array.from({ length: 50 }, (_, i) => ({
+      name: `User ${i + 1}`,
+      image: `https://randomuser.me/api/portraits/${i % 2 ? "men" : "women"}/${i + 10}.jpg`,
+    }));
+
+    let intervalId = null;
+
+    function startRotation(interest) {
+      clearInterval(intervalId);
+      if (!interest) {
+        document.getElementById("matchResults").innerHTML = "";
+        return;
+      }
+      showMatches(interest);
+      intervalId = setInterval(() => showMatches(interest), 5000);
+    }
+
+    function showMatches(interest) {
+      const container = document.getElementById("matchResults");
+      container.innerHTML = "";
+      const randomTen = users.sort(() => 0.5 - Math.random()).slice(0, 10);
+      randomTen.forEach(user => {
+        const div = document.createElement("div");
+        div.className = "profile";
+        div.innerHTML = `
+          <img src="${user.image}" alt="${user.name}">
+          <strong>${user.name}</strong><br>
+          <small>${interest}</small>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // Scrolling strip
+    const scrollContent = document.getElementById("scrollingFaces");
+    const longList = [...users, ...users, ...users]; // extend list
+    longList.forEach(user => {
+      const div = document.createElement("div");
+      div.className = "scroll-item";
+      div.innerHTML = `<img src="${user.image}" alt="${user.name}"><br><small>${user.name}</small>`;
+      scrollContent.appendChild(div);
+    });
+  </script>
+</body>
+</html>
+
+
+
+

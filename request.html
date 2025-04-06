@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Request a Conference | Conference Connect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-bg: rgba(0, 0, 0, 0.85);
+      --secondary-bg: rgba(255, 255, 255, 0.1);
+      --text-color: #fff;
+    }
+
+    body.dark-mode {
+      --primary-bg: rgba(255, 255, 255, 0.95);
+      --secondary-bg: rgba(240, 240, 240, 0.9);
+      --text-color: #111;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url('https://images.unsplash.com/photo-1551836022-d5d88e9218df') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    header {
+      background-color: var(--primary-bg);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .top-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background: #357bd8;
+    }
+
+    /* Side Menu */
+    .side-menu {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: var(--primary-bg);
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+      z-index: 15;
+    }
+
+    .side-menu a {
+      padding: 12px 32px;
+      text-decoration: none;
+      color: var(--text-color);
+      display: block;
+      transition: 0.3s;
+    }
+
+    .side-menu a:hover {
+      background-color: #4a90e2;
+      color: white;
+    }
+
+    .menu-btn {
+      font-size: 24px;
+      background: none;
+      color: var(--text-color);
+      border: none;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: var(--secondary-bg);
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #4a90e2;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    .submit-btn {
+      background-color: #4a90e2;
+      color: white;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #357bd8;
+    }
+
+    .success-message {
+      color: limegreen;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    /* Glitter Effect */
+    .glitter {
+      position: fixed;
+      pointer-events: none;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      animation: glitter-fall 1s ease-out;
+    }
+
+    @keyframes glitter-fall {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(40px) scale(0);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div style="display: flex; align-items: center;">
+      <button class="menu-btn" onclick="openMenu()">☰</button>
+      <div class="logo">Conference Connect</div>
+    </div>
+    <div class="top-buttons">
+      <button class="btn" onclick="toggleDarkMode()">🌙</button>
+      <button class="btn" onclick="location.href='login.html'">Login</button>
+    </div>
+  </header>
+
+  <div id="sideMenu" class="side-menu">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+    <a href="index.html">🏠 Home</a>
+    <a href="leaderboard.html">🏆 Leaderboard</a>
+    <a href="matchmaking.html">❤️ Matchmaking</a>
+    <a href="nearby.html">📍 Nearby Attendees</a>
+    <a href="review.html">✍️ Write a Review</a>
+    <a href="request.html">📩 Request Conference</a>
+    <a href="login.html">Login</a>
+  </div>
+
+  <div class="container">
+    <h2>Request a Conference</h2>
+    <form onsubmit="submitRequest(event)">
+      <input type="text" placeholder="Your Name" required>
+      <input type="text" placeholder="Their Name" required>
+      <input type="datetime-local" required>
+      <textarea placeholder="Message or reason for requesting the conference..." required></textarea>
+      <button type="submit" class="submit-btn">Send Request</button>
+    </form>
+    <div id="confirmation" class="success-message" style="display: none;">✅ Request sent successfully!</div>
+  </div>
+
+  <script>
+    function openMenu() {
+      document.getElementById("sideMenu").style.width = "250px";
+    }
+
+    function closeMenu() {
+      document.getElementById("sideMenu").style.width = "0";
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    function submitRequest(e) {
+      e.preventDefault();
+      document.getElementById("confirmation").style.display = "block";
+    }
+
+    // Glitter Effect
+    document.addEventListener("mousemove", e => {
+      const glitter = document.createElement("div");
+      glitter.className = "glitter";
+      glitter.style.left = `${e.pageX}px`;
+      glitter.style.top = `${e.pageY}px`;
+      document.body.appendChild(glitter);
+      setTimeout(() => glitter.remove(), 1000);
+    });
+  </script>
+</body>
+</html>

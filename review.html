@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Write a Review | Conference Connect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-bg: rgba(255, 255, 255, 0.95);
+      --secondary-bg: rgba(240, 240, 240, 0.9);
+      --text-color: #111;
+      --card-bg: #fff;
+    }
+
+    body.dark-mode {
+      --primary-bg: rgba(0, 0, 0, 0.95);
+      --secondary-bg: rgba(30, 30, 30, 0.9);
+      --text-color: #fff;
+      --card-bg: #222;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--primary-bg);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    header {
+      background-color: var(--secondary-bg);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .top-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background: #357bd8;
+    }
+
+    .menu-btn {
+      font-size: 24px;
+      background: none;
+      color: var(--text-color);
+      border: none;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .side-menu {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: var(--secondary-bg);
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+      z-index: 15;
+    }
+
+    .side-menu a {
+      padding: 12px 32px;
+      text-decoration: none;
+      color: var(--text-color);
+      display: block;
+      transition: 0.3s;
+    }
+
+    .side-menu a:hover {
+      background-color: #4a90e2;
+      color: white;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .container {
+      padding: 30px;
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: var(--secondary-bg);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .container h2 {
+      color: #4a90e2;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input, textarea, select {
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .review-card {
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .glitter {
+      position: fixed;
+      pointer-events: none;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      animation: glitter-fall 1s ease-out;
+    }
+
+    @keyframes glitter-fall {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(40px) scale(0); opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div style="display: flex; align-items: center;">
+      <button class="menu-btn" onclick="openMenu()">☰</button>
+      <div class="logo">Conference Connect</div>
+    </div>
+    <div class="top-buttons">
+      <button class="btn" onclick="toggleDarkMode()">🌙</button>
+      <button class="btn" onclick="location.href='login.html'">Login</button>
+    </div>
+  </header>
+
+  <div id="sideMenu" class="side-menu">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+    <a href="index.html">🏠 Home</a>
+    <a href="leaderboard.html">🏆 Leaderboard</a>
+    <a href="matchmaking.html">❤️ Matchmaking</a>
+    <a href="nearby.html">📍 Nearby Attendees</a>
+    <a href="review.html">✍️ Write a Review</a>
+    <a href="request.html">📩 Request Conference</a>
+    <a href="login.html">Login</a>
+  </div>
+
+  <div class="container">
+    <h2>Write a Review</h2>
+    <form id="reviewForm">
+      <input type="text" id="name" placeholder="Your Name" required />
+      <select id="rating" required>
+        <option value="">Rate Us</option>
+        <option value="⭐">⭐</option>
+        <option value="⭐⭐">⭐⭐</option>
+        <option value="⭐⭐⭐">⭐⭐⭐</option>
+        <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
+        <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
+      </select>
+      <textarea id="comment" placeholder="Your comments..." rows="4" required></textarea>
+      <button type="submit" class="btn">Submit Review</button>
+    </form>
+
+    <div id="thankYouMsg" style="display: none; text-align: center; margin-top: 20px;">
+      <strong>Thank you for your feedback!</strong>
+    </div>
+
+    <div id="reviews"></div>
+  </div>
+
+  <script>
+    function openMenu() {
+      document.getElementById("sideMenu").style.width = "250px";
+    }
+
+    function closeMenu() {
+      document.getElementById("sideMenu").style.width = "0";
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    document.addEventListener("mousemove", e => {
+      const glitter = document.createElement("div");
+      glitter.className = "glitter";
+      glitter.style.left = `${e.pageX}px`;
+      glitter.style.top = `${e.pageY}px`;
+      document.body.appendChild(glitter);
+      setTimeout(() => glitter.remove(), 1000);
+    });
+
+    const form = document.getElementById("reviewForm");
+    const reviewsDiv = document.getElementById("reviews");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const rating = document.getElementById("rating").value;
+      const comment = document.getElementById("comment").value.trim();
+
+      if (!name || !rating || !comment) return;
+
+      const review = { name, rating, comment };
+      let allReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+      allReviews.push(review);
+      localStorage.setItem("reviews", JSON.stringify(allReviews));
+
+      form.reset();
+      document.getElementById("thankYouMsg").style.display = "block";
+      setTimeout(() => document.getElementById("thankYouMsg").style.display = "none", 3000);
+      displayReviews();
+    });
+
+    function displayReviews() {
+      reviewsDiv.innerHTML = "";
+      const allReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+      allReviews.forEach(({ name, rating, comment }) => {
+        const div = document.createElement("div");
+        div.className = "review-card";
+        div.innerHTML = `<strong>${name}</strong> ${rating}<br><p>${comment}</p>`;
+        reviewsDiv.appendChild(div);
+      });
+    }
+
+    displayReviews();
+  </script>
+</body>
+</html>
